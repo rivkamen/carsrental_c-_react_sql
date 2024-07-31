@@ -8,14 +8,18 @@ import { InputText } from "primereact/inputtext";
 import { ColorPicker } from 'primereact/colorpicker';
 import { FileUpload } from 'primereact/fileupload';
 import { getAllCompanies } from '../../axios/companyAxios'; // Import your axios function to fetch company data
-
+import {getAllModels} from '../../axios/modelAxios'
 const AddCard = () => {
     const [color, setColor] = useState('#40E0D0');
     const [value1, setValue1] = useState(20);
     const [value3, setValue3] = useState(0);
-    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedModel, setSelectedModel] = useState(null);
+    const [selectedCompany, setSelectedCompany] = useState(null);
     const [comp,setComp]=useState([])
     const [companyOptions, setCompanyOptions] = useState([]); // State to hold company options
+    const [modelOptions, setModelOptions] = useState([]); // State to hold company options
+
+    const [mode,setMode]=useState([])
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -34,9 +38,28 @@ const AddCard = () => {
         fetchData();
     }, []);
     useEffect(() => {
-        const companyNames = comp.map(c => c.companyName);
-        console.log(companyNames);
-    }, [comp]);
+        const fetchData2 = async () => {
+            try {
+                const data2 = await getAllModels(); // Fetch car data from the API
+                if (Array.isArray(data2)) {
+                    setMode(data2); // Update the cars state with the fetched data if it is an array
+                  
+                } else {
+                    console.error('Data fetched is not an array:', data2);
+                }
+            } catch (error) {
+                console.error('Error fetching car data:', error);
+            }
+        };
+
+        fetchData2();
+    }, []);
+    // useEffect(() => {
+       
+    //     const companyNames = comp.map((c) => ({ name: c.companyName }));
+
+    //     console.log(companyNames);
+    // }, [comp]);
     const cities = [
                 { name: 'New York', code: 'NY' },
                 { name: 'Rome', code: 'RM' },
@@ -76,20 +99,30 @@ const AddCard = () => {
                             const base64data = reader.result;
                         };
                     };
+    
     useEffect(() => {
-        // Fetch company data when component mounts
-        getAllCompanies().then((response) => {
-            // Extract company names from the response data
-            const companies = response.data.map((company) => ({
-                name: company.name,
-                code: company.code
-            }));
-            // Update the companyOptions state with the fetched data
-            setCompanyOptions(companies);
-        }).catch((error) => {
-            console.error('Error fetching company data:', error);
-        });
-    }, []);
+        const formattedCompanyOptions = comp?.map((c) => ({
+            name: c.companyName,
+            code: c.companyCode // Assuming you have a company code in your data
+        }));
+
+    
+        setCompanyOptions(formattedCompanyOptions);
+    
+        console.log(formattedCompanyOptions);
+    }, [comp]);
+     useEffect(() => {
+        const formattedModelsOptions = mode?.map((m) => ({
+            name: m.modelName,
+            code: m.modelId // Assuming you have a company code in your data
+        }));
+        
+    
+        setModelOptions(formattedModelsOptions);
+    
+        console.log(formattedModelsOptions);
+    }, [mode]);
+    
 
     return (
         <>
@@ -103,14 +136,14 @@ const AddCard = () => {
                     <InputText keyfilter="int" style={{ width: '80%', marginBottom: '10px' }} />
 
                     <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>בחר חברה:</label>
-                    <Dropdown value={companyOptions} onChange={(e) => setSelectedCity(e.value)} options={companyOptions} optionLabel="name"
+                    <Dropdown value={selectedCompany} onChange={(e) => setSelectedCompany(e.value)} options={companyOptions} optionLabel="name"
                         placeholder="בחר חברה" className="w-full md:w-14rem" style={{ width: '80%', marginBottom: '10px' }} />
 
                     {/* Other form fields */}
                  
             <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מודל:</label>
 
-            <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" 
+            <Dropdown value={selectedModel} onChange={(e) => setSelectedModel(e.value)} options={modelOptions} optionLabel="name" 
                 placeholder="בחר מודל רכב" className="w-full md:w-14rem" style={{ width: '80%', marginBottom: '10px'}} />
        
         
