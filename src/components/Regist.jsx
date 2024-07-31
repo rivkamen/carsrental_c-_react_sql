@@ -29,24 +29,20 @@ const Regist = (props) => {
 
     const handlePhoneRef = (input) => {
       phone.current = input;
+      console.log(phone);
     };
     const register = async (e) => {
         try {
-            const a={ LandlordTz: iduser.current.value, LandlordName: username.current.value, Birthdate: birthDate.current.value, LandlordPhone: phone.current.value, Address: address.current.value, Email: email.current.value }
+            const a={ LandlordTz: iduser.current.value, LandlordName: username.current.value, Birthdate:null, LandlordPhone: phone.current, Address: address.current.value, Email: email.current.value }
                       console.log("a");
                       console.log(phone);
-                      console.log(phone.current);
-                      console.log(phone.current.value);
+                  
 
 
-                      console.log(username.current.value);
 
   console.log(a);
-  const year = birthDate.getFullYear();
-  const month = (birthDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is zero-based
-  const day = birthDate.getDate().toString().padStart(2, '0');
-  const formattedDate = `${year}-${month}-${day}`;
-            const response = await addLandlord({ LandlordTz: iduser.current.value, LandlordName: username.current.value, Birthdate: formattedDate, LandlordPhone: phone.current.value, Address: address.current.value, Email: email.current.value });
+
+            const response = await addLandlord({ LandlordTz: iduser.current.value, LandlordName: username.current.value, Birthdate: null, LandlordPhone: phone.current, Address: address.current.value, Email: email.current.value });
             
             if (response.status < 200 || response.status >= 300) {
                 console.log("Data Problem, please try again");
@@ -68,9 +64,12 @@ const Regist = (props) => {
     const [value, setValue] = useState('');
     const [date, setDate] = useState(null);
     const [ingredient, setIngredient] = useState('');
-    var birthDate = useRef(Date.now())
+    var birthDate = useRef('')
     const [value3, setValue3] = useState();
-    
+    // const year = birthDate.getFullYear();
+    // const month = (startDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is zero-based
+    // const day = startDate.getDate().toString().padStart(2, '0');
+    // const formattedDate = `${year}-${month}-${day}`;
     addLocale('es', {
         firstDayOfWeek: 1,
         showMonthAfterYear: true,
@@ -187,10 +186,10 @@ const Regist = (props) => {
                         </label>
                         {/* <InputMask id="phone" inputRef={phone} style={{ width: '400px', height: '50px' }} mask="(999) 999-9999" ></InputMask> */}
                         <InputMask 
-  id="phone" 
-  inputRef={handlePhoneRef} 
-  style={{ width: '400px', height: '50px' }} 
-  mask="(999) 999-9999" 
+                            id="phone" 
+                                inputRef={phone} 
+                                 style={{ width: '400px', height: '50px' }} 
+                                 mask="(999) 999-9999" 
 />
           
                    </div><br />

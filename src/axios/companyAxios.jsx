@@ -3,7 +3,8 @@ import axios from 'axios';
 axios.defaults.baseURL = "https://localhost:44360"
 
 export async function getAllCompanies() {
-   return await axios.get('/company/getAll')
+    console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkk");
+   return await axios.get('api/Company')
     .then((response) => {
         console.log(response)
         return response.data

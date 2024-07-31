@@ -14,6 +14,7 @@ import RentCard from './components/RentCar';
 import AddCard from './components/AddCar';
 import CatalogManager from './components/manager/CatalogManager'
 import HomePage from './components/HomePage';
+import EndRetal from './components/End';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='/form' element={<RentCard />} />
           <Route path='/addCar' element={<AddCard />} />
           <Route path='/CatalogManager' element={<CatalogManager />} />
+          <Route path='/end' element={<EndRetal />} />
           <Route path='/' element={<HomePage/>}/>
           <Route path='/register' element={<Register />} />
           <Route path='/catalog' element={<Catalog />} />

@@ -126,7 +126,7 @@ const formattedDater = `${yearr}-${monthr}-${dayr}`;
     const handleOK = async() => {
         await addrenting()
         alert("הזמנה בוצעה בהצלחה!")
-        navigate('/catalog')
+        navigate('/end')
         // setVisible(false);
     };
 
@@ -173,7 +173,7 @@ console.log(formattedDate); // Output: "2024-08-21"
                                 <Calendar dateFormat="dd/mm/yy" value={returnDate} onChange={(e) => setReturnDate(e.value)} minDate={today} maxDate={maxDate} readOnlyInput style={{ width: '200px' }} />
                             </div>
                         </div>
-                        <p>מחיר: {price} $</p>
+                        <p>מחיר: {price} ₪</p>
                     </div>
                     <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={`http://localhost:3000/images/${car.imageUrl}`} alt={car.name} />

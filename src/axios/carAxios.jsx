@@ -55,6 +55,7 @@ export async function addCar(car) {
 }
 
 export async function deleteCar(carId) {
+    console.log(carId);
     await axios.delete('/api/Car',carId)
         .then((response) => {
             return response.data.statusCode

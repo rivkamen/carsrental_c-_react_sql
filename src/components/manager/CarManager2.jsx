@@ -53,7 +53,8 @@ const CarManager = (props) => {
         navigate('/form', { state: { carr: car } });
     };
    
-    const deleteCar1=async() =>{  await deleteCar();}
+    const deleteCar1=async() =>{ 
+         await deleteCar(car.carId);}
 
     return (
         <>

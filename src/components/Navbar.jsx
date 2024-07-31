@@ -91,7 +91,7 @@ const Navbar = () => {
         {
             label: 'ניהול רכבים',
             icon: 'pi pi-fw pi-crown',
-            command: () => { window.location.pathname = "/contactForm"; }
+            command: () => { window.location.pathname = "/CatalogManager"; }
         }
     ];
     const items3 = [
