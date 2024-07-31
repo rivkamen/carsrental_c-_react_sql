@@ -83,12 +83,25 @@ const addrenting = async () => {
     const addDriver = selectedCategoriesKeys.includes('P');
     const damages = selectedCategoriesKeys.includes('l');
     const wase = selectedCategoriesKeys.includes('R');
-
+    console.log("logggggggggg");
+    console.log(localStorage.getItem("userId"));
+console.log(startDate.getFullYear());
+console.log(returnDate);
+console.log(babySeat);
+console.log(car.carId);
+const year = startDate.getFullYear();
+const month = (startDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is zero-based
+const day = startDate.getDate().toString().padStart(2, '0');
+const formattedDate = `${year}-${month}-${day}`;
+const yearr = returnDate.getFullYear();
+const monthr = (returnDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is zero-based
+const dayr = returnDate.getDate().toString().padStart(2, '0');
+const formattedDater = `${yearr}-${monthr}-${dayr}`;
     await addRenting({
-        LandlordId: localStorage.getItem(),
-        RentingDate: startDate,
-        ReturnDate: returnDate,
-        CarId: car._id,
+        LandlordId: sessionStorage.getItem("userId"),
+        RentingDate: formattedDate,
+        ReturnDate: formattedDater,
+        CarId: car.carId,
         BabySeat: babySeat,
         Koster: koster,
         AddDriver: addDriver,
@@ -110,9 +123,9 @@ const addrenting = async () => {
         navigate('/catalog')
         // setVisible(false);
     };
-    const handleOK = () => {
-        addrenting()
-
+    const handleOK = async() => {
+        await addrenting()
+        alert("הזמנה בוצעה בהצלחה!")
         navigate('/catalog')
         // setVisible(false);
     };
@@ -120,7 +133,14 @@ const addrenting = async () => {
     const handleColorChange = (color) => {
         setSelectedColor(color);
     };
+/*const originalDate = new Date("Wed Aug 21 2024 00:00:00 GMT+0300 (שעון ישראל (קיץ))");
+const year = originalDate.getFullYear();
+const month = (originalDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month as it is zero-based
+const day = originalDate.getDate().toString().padStart(2, '0');
 
+const formattedDate = `${year}-${month}-${day}`;
+console.log(formattedDate); // Output: "2024-08-21"
+ */
     return (
         <div dir='rtl' style={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Card title={car.name} style={{ width: '60vh' }}>

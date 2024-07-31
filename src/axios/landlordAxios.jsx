@@ -112,6 +112,8 @@ export async function login(landlordTz, email) {
 
         // Store the user ID in the session storage
         sessionStorage.setItem('userId', userId);
+        sessionStorage.setItem('username', response.data.landlordTz);
+
 
         return response;
     } catch (error) {

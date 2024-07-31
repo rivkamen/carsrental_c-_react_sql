@@ -305,6 +305,7 @@ const Login2=()=>{
        // e.preventDefault();
     //    await loginFunc({username:username.current.value,password:password.current.value})
      await login(username.current.value,email.current.value);
+     window.location.reload(true)
 
         };
     
