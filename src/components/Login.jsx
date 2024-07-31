@@ -256,7 +256,7 @@ import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import Register from './Register';
 import axios from 'axios';
-import { Login } from "../axios/landlordAxios";
+import { login } from "../axios/landlordAxios";
 import {jwtDecode} from 'jwt-decode'; // corrected import statement
 import { useNavigate } from 'react-router-dom';
 import Regist from "./Regist";
@@ -265,8 +265,8 @@ import Regist from "./Regist";
 //import { useNavigate } from 'react-router-dom';
 //z6o1f2n5a8t8p2a5a5n3e1a7h
 const Login2=()=>{
-    const username=useRef()
-    const email=useRef()
+    const username=useRef('')
+    const email=useRef('')
     const[register,setRegister]=useState(false)
     // const [loginFunc, {isError, error, isSuccess:loginSuccess,data}] = useLoginMutation();
     // const sendeE=async()=>{
@@ -304,7 +304,7 @@ const Login2=()=>{
     const handleSubmit = async (e) => {
        // e.preventDefault();
     //    await loginFunc({username:username.current.value,password:password.current.value})
-     await Login(username, email);
+     await login(username.current.value,email.current.value);
 
         };
     

@@ -1,3 +1,4 @@
+import { logDOM } from '@testing-library/react';
 import axios from 'axios';
 
 axios.defaults.baseURL = "https://localhost:44360"
@@ -79,15 +80,42 @@ export async function deleteLandlord(landlordId) {
         })
 }
 
-export async function Login(name,password) {
-    const Login={name,password}
+// export async function login(landlordTz,email) {
+//     console.log("login");
+//     console.log(email);
+//     console.log(landlordTz);
+//     const Login={landlordTz,email}
+//     console.log("asdfghjkl;");
+//     return await axios.post('/api/Landlord/Login',Login)//לפני ששולחים לאתחל אוביקט עם כל המשתנים
+//         .then(async(response) => {
+//             console.log("responseA",response);
+//             return response
+//         })
+//         .catch((e) => {
+//             return console.log("catchToken",e)
+//         })
+// }
+
+export async function login(landlordTz, email) {
+    console.log("login");
+    console.log(email);
+    console.log(landlordTz);
+    const Login = { landlordTz, email };
     console.log("asdfghjkl;");
-    return await axios.post('/api/Landlord/Login',Login)//לפני ששולחים לאתחל אוביקט עם כל המשתנים
-        .then(async(response) => {
-            console.log("responseA",response);
-            return response
-        })
-        .catch((e) => {
-            return console.log("catchToken",e)
-        })
+
+    try {
+        const response = await axios.post('/api/Landlord/Login', Login);
+        console.log("responseA", response);
+
+        // Assuming the response contains the user ID
+        const userId = response.data.landlordId;
+
+        // Store the user ID in the session storage
+        sessionStorage.setItem('userId', userId);
+
+        return response;
+    } catch (error) {
+        console.error("catchToken", error);
+        throw error; // You may want to handle or rethrow the error as needed
+    }
 }
