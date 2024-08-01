@@ -42,8 +42,24 @@ export async function getAllCars() {
      })
  }
 
+//  export async function addCar(car) {
+//     const carData = JSON.stringify(car);
+
+//     return await axios.post('/api/Car', carData)
+//         .then((response) => {
+//             console.log(response);
+//             return response;
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//             return 0;
+//         });
+// }
+
 export async function addCar(car) {
-   return await axios.post('/api/Car',car)
+    console.log("car");
+    console.log(car);
+   return await axios.post('/api/Car',{carNumber:car.carNumber,modelId:car.modelId,numOfKilometraz:car.numOfKilometraz,status:car.status,color:car.color,price:car.price,imageUrl:'g.jpg'})
         .then((response) => {
             console.log(response)
             return response

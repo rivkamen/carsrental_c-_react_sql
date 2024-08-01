@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.baseURL = "https://localhost:44360"
 
 export async function getAllModels() {
-   return await axios.get('/model/getAll')
+   return await axios.get('api/Model/')
     .then((response) => {
         console.log(response)
         return response.data

@@ -101,9 +101,12 @@ const CatalogManager = () => {
         <>
             <Button label="הוספת מוצר" className="p-button-rounded p-button-info" onClick={() => setVisible(true)} />
 
-            <Dialog header="Add Car" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+            {/* <Dialog header="Add Car" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
                 <AddCard />
-            </Dialog>
+            </Dialog> */}
+<Dialog header="Add Car" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+    <AddCard handleCloseDialog={() => setVisible(false)} />
+</Dialog>
 
             <div className="catalog">
                 {cars.length === 0 ? (

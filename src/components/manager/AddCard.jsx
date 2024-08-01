@@ -9,14 +9,14 @@ import { ColorPicker } from 'primereact/colorpicker';
 import { FileUpload } from 'primereact/fileupload';
 import { getAllCompanies } from '../../axios/companyAxios'; // Import your axios function to fetch company data
 import {getAllModels} from '../../axios/modelAxios'
-const AddCard = () => {
+import {addCar} from '../../axios/carAxios'
+
+const AddCard = ({ handleCloseDialog }) => {
     const [color, setColor] = useState('#40E0D0');
     const [value1, setValue1] = useState(20);
     const [value3, setValue3] = useState(0);
     const [selectedModel, setSelectedModel] = useState(null);
-    const [selectedCompany, setSelectedCompany] = useState(null);
     const [comp,setComp]=useState([])
-    const [companyOptions, setCompanyOptions] = useState([]); // State to hold company options
     const [modelOptions, setModelOptions] = useState([]); // State to hold company options
 
     const [mode,setMode]=useState([])
@@ -43,7 +43,8 @@ const AddCard = () => {
                 const data2 = await getAllModels(); // Fetch car data from the API
                 if (Array.isArray(data2)) {
                     setMode(data2); // Update the cars state with the fetched data if it is an array
-                  
+                  console.log("mode");
+                  console.log(mode);
                 } else {
                     console.error('Data fetched is not an array:', data2);
                 }
@@ -60,24 +61,22 @@ const AddCard = () => {
 
     //     console.log(companyNames);
     // }, [comp]);
-    const cities = [
-                { name: 'New York', code: 'NY' },
-                { name: 'Rome', code: 'RM' },
-                { name: 'London', code: 'LDN' },
-                { name: 'Istanbul', code: 'IST' },
-                { name: 'Paris', code: 'PRS' }
-            ];
-            const numOfKilometraz=useRef()
+   
+            const numOfKilometraz=useRef(0)
                 const status=useRef()
                 const imageUrl=useRef()
-                const price=useRef()
+                const price=useRef(0)
             
             
                 const handleDialogHide = () => {
-                    // 
-                }
-                const addCar = async(e) => {
-                    await addCar({"ModelId":"","NumOfKilometraz":numOfKilometraz,"Status":true,"Color":color,"Price":price,"ImageUrl":imageUrl})
+                   console.log(numOfKilometraz);
+                   console.log(imageUrl);
+                    handleCloseDialog();
+                };
+            
+                const addCarr = async(e) => {
+
+                    await addCar({modelId:selectedModel?.code || null,numOfKilometraz:numOfKilometraz.current.value || null,status:true,color:color || null,price:price.current.value || null,imageUrl:imageUrl || null})
                     .then((e) => {
                         if (e.status != 200) {
                             console.log("yes");
@@ -85,6 +84,8 @@ const AddCard = () => {
                         else {
                             console.log("no");
                         }})
+                        handleDialogHide()
+                        window.location.reload(true)
             
                 };
             const customBase64Uploader = async (event) => {
@@ -101,66 +102,54 @@ const AddCard = () => {
                     };
     
     useEffect(() => {
-        const formattedCompanyOptions = comp?.map((c) => ({
-            name: c.companyName,
-            code: c.companyCode // Assuming you have a company code in your data
-        }));
-
-    
-        setCompanyOptions(formattedCompanyOptions);
-    
-        console.log(formattedCompanyOptions);
-    }, [comp]);
-     useEffect(() => {
-        const formattedModelsOptions = mode?.map((m) => ({
+        const formattedModelOptions = mode?.map((m) => ({
             name: m.modelName,
             code: m.modelId // Assuming you have a company code in your data
         }));
-        
+
     
-        setModelOptions(formattedModelsOptions);
+        setModelOptions(formattedModelOptions);
     
-        console.log(formattedModelsOptions);
+        console.log(formattedModelOptions);
     }, [mode]);
-    
+   
 
     return (
         <>
      
-        {
-            console.log("add car 1111111111111111111111111111")
-        }
+       
             <div dir='rtl' style={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '2%' }}>
                 <Card style={{ width: '80vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מספר רכב:</label>
                     <InputText keyfilter="int" style={{ width: '80%', marginBottom: '10px' }} />
 
-                    <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>בחר חברה:</label>
-                    <Dropdown value={selectedCompany} onChange={(e) => setSelectedCompany(e.value)} options={companyOptions} optionLabel="name"
-                        placeholder="בחר חברה" className="w-full md:w-14rem" style={{ width: '80%', marginBottom: '10px' }} />
+                    <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>בחר מודל:</label>
+                    <Dropdown value={selectedModel} onChange={(e) => setSelectedModel(e.value)} options={modelOptions} optionLabel="name"
+                        placeholder="בחר מודל" className="w-full md:w-14rem" style={{ width: '80%', marginBottom: '10px' }} />
 
                     {/* Other form fields */}
                  
-            <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מודל:</label>
+            {/* <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מודל:</label>
 
             <Dropdown value={selectedModel} onChange={(e) => setSelectedModel(e.value)} options={modelOptions} optionLabel="name" 
                 placeholder="בחר מודל רכב" className="w-full md:w-14rem" style={{ width: '80%', marginBottom: '10px'}} />
        
-        
+         */}
         <label htmlFor="stacked-buttons" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מחיר:</label>
-        <InputNumber inputId="stacked-buttons" value={value1} onValueChange={(e) => setValue1(e.value)} showButtons mode="currency" currency="ILS" style={{ width: '80%', marginBottom: '10px' }} />
+        <InputNumber inputRef={price} inputId="stacked-buttons" value={value1} onValueChange={(e) => setValue1(e.value)} showButtons mode="decimal" currency="ILS" style={{ width: '80%', marginBottom: '10px' }} />
         
         <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>קמ"ש:</label>
-        <InputNumber inputId="integeronly" value={value3} onValueChange={(e) => setValue3(e.value)} style={{ width: '80%', marginBottom: '10px' }} />
+        <InputNumber inputId="integeronly" value={value3} onValueChange={(e) => setValue3(e.value)} style={{ width: '80%', marginBottom: '10px' }} inputRef={numOfKilometraz}/>
         <label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>צבע:</label>
-        <ColorPicker value={color} onChange={(e) => setColor(e.value)} style={{ width: '80%', marginBottom: '10px'}} />
+        <ColorPicker  value={color} onChange={(e) => setColor(e.value)} style={{ width: '80%', marginBottom: '10px'}} />
         <br/> <br/>
 
-        <FileUpload style={{ width: '80%', marginBottom: '10px' }} mode="basic" name="demo[]" url="/api/upload" accept="image/*" customUpload uploadHandler={customBase64Uploader} />
+        <FileUpload style={{ width: '80%', marginBottom: '10px' }} mode="basic" name="demo[]" url="/api/upload" inputRef={imageUrl}accept="image/*" customUpload uploadHandler={customBase64Uploader} />
         
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px', width: '100%' }}>
-            <Button label="בצע" icon="pi pi-check" style={{ width: "45%", marginRight: '5px' }} /> &nbsp;
+            <Button label="בצע" icon="pi pi-check" style={{ width: "45%", marginRight: '5px' }} onClick={addCarr} /> &nbsp;
             <Button label="בטל" severity="secondary" icon="pi pi-times" style={{ width: "45%" }} onClick={handleDialogHide} />
+
         </div>
                 </Card>
             </div>
@@ -169,3 +158,11 @@ const AddCard = () => {
 };
 
 export default AddCard;
+/*<label htmlFor="integeronly" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מספר רכב:</label>
+<InputNumber inputRef={numOfKilometraz} value={value1} onValueChange={(e) => setValue1(e.value)} showButtons mode="decimal" style={{ width: '80%', marginBottom: '10px' }} />
+
+<label htmlFor="stacked-buttons" className="font-bold block mb-2" style={{ width: '100%', textAlign: 'center' }}>מחיר:</label>
+<InputNumber inputRef={price} value={value3} onValueChange={(e) => setValue3(e.value)} showButtons mode="currency" currency="ILS" style={{ width: '80%', marginBottom: '10px' }} />
+ 
+
+*/
