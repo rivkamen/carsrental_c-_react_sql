@@ -7,7 +7,8 @@ import { Checkbox } from 'primereact/checkbox';
 import { Calendar } from 'primereact/calendar';
 import {addRenting} from '../axios/rentingAxios'
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import {getAllModels} from '../axios/modelAxios'
+import swal from 'sweetalert';
 const RentCard = () => {
    
 const location = useLocation();
@@ -19,6 +20,8 @@ const location = useLocation();
     const [startDate, setStartDate] = useState(null);
     const [returnDate, setReturnDate] = useState(null); 
        const [adding,setAdding]=useState(0)
+       const [model,setModel]=useState()
+       const [mode,setMode]=useState()
 
     const [price,setPrice]=useState(car.price)
     let today = new Date();
@@ -56,24 +59,79 @@ const onCategoryChange = (e) => {
     }
 };
 
+// useEffect(() => {
+//     const fetchDataModel = async () => {
+//         try {
+//             const data = await getAllModels(); // Fetch car data from the API
+//             if (Array.isArray(data)) {
+//                 setModel(data); // Update the cars state with the fetched data if it is an array
+//             } else {
+//                 console.error('Data fetched is not an array:', data);
+//             }
+//         } catch (error) {
+//             console.error('Error fetching car data:', error);
+//         }
+//     };
+
+//     fetchDataModel();
+// }, []);
+
+// useEffect(() => {
+//     console.log("Selected Categories:", selectedCategories);
+//     console.log("Adding:", adding);
+// }, [selectedCategories, adding]);
+// useEffect(() => {
+//     if (car) {
+//       console.log("yehi");
+
+//       console.log(car);
+//     }
+//   }, [car]); 
+
+//   if (!car) {
+//     return <div>No car data found</div>;
+//   }
+//   useEffect(() => {
+//     if (model) {
+//       const mod=model.find(m=>m.modelId===car.modelId)
+//     }
+//   }, [model]); 
+
+useEffect(() => {
+    const fetchDataModel = async () => {
+        try {
+            const data = await getAllModels();
+            if (Array.isArray(data)) {
+                setModel(data);
+            } else {
+                console.error('Data fetched is not an array:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching car data:', error);
+        }
+    };
+
+    fetchDataModel();
+}, []);
 
 useEffect(() => {
     console.log("Selected Categories:", selectedCategories);
     console.log("Adding:", adding);
 }, [selectedCategories, adding]);
+
 useEffect(() => {
     if (car) {
-      console.log("yehi");
-
-      console.log(car);
+        console.log("yehi");
+        console.log(car);
     }
-  }, [car]); 
+}, [car]);
 
-  if (!car) {
-    return <div>No car data found</div>;
-  }
-
-
+useEffect(() => {
+    if (model) {
+        const mod = model.find(m => m.modelId === car.modelId);
+        setMode(mod)
+    }
+}, [model, car]);
 
 
 const addrenting = async () => {
@@ -124,12 +182,18 @@ const formattedDater = `${yearr}-${monthr}-${dayr}`;
         // setVisible(false);
     };
     const handleOK = async() => {
-        await addrenting()
-        alert("הזמנה בוצעה בהצלחה!")
-        navigate('/end')
+        if(returnDate-startDate>-1){
+            await addrenting()
+            alert("הזמנה בוצעה בהצלחה!")
+            navigate('/end')
+        }
+        else{
+            swal("!תאריך החזרה לפני תאריך השכרה", "אנא הזן תאריכים תקינים", "error");
+             
+        }
+       
         // setVisible(false);
     };
-
     const handleColorChange = (color) => {
         setSelectedColor(color);
     };
@@ -146,8 +210,7 @@ console.log(formattedDate); // Output: "2024-08-21"
             <Card title={car.name} style={{ width: '60vh' }}>
                 <div style={{ display: 'flex', height: '100%' }}>
                     <div style={{ flex: '1', marginRight: '1rem' }}>
-                        <p>דגם: {car.model}</p>
-                       
+                    <p>דגם: {mode ? mode.modelName : ""}</p>                       
 
                         <div className="flex flex-column gap-3">
                             <p>תוספות:</p>

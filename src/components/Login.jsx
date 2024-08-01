@@ -9,14 +9,14 @@
 // // import { Login } from "../axios/landlordAxios";
 // // import { jwtDecode } from 'jwt-decode' // import dependency
 // // import { useNavigate } from 'react-router-dom';
-
-
+ 
+ 
 // // const Login2=(props)=> {
 // //     const [visible, setVisible] = useState(false);
 // //     const navigate = useNavigate()
-
+ 
 // //     var name = "", password = ""
-
+ 
 // //     const login = async () => {
 // //         try {
 // //             debugger
@@ -29,7 +29,7 @@
 // //                     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 // //                      const decodedToken = jwtDecode(token);
 // //                      console.log("decodedToken", decodedToken);
-// //                     localStorage.setItem("token",token) 
+// //                     localStorage.setItem("token",token)
 // //                     props.setUser(decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"])
 // //                     props.setRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"])
 // //                     setVisible(false)
@@ -46,17 +46,17 @@
 // //             setVisible(false)
 // //         }
 // //     }
-
+ 
 // //     return (
 // //         <div className="card flex justify-content-center">
-            
+           
 // //             <Button label="Login" icon="pi pi-user" onClick={() => setVisible(true)} style={{ backgroundColor: "gray", borderColor: "var(--surface-400)", boxShadow: "var(--surface-100)" }} />
 // //             <Dialog header=""
 // //                 style={{ width: '60%', textAlign: "center" }}
 // //                 visible={visible}
 // //                 onHide={() => setVisible(false)}
 // //             >
-
+ 
 // //                 <div className="card" style={{ backgroundColor: "var(--surface-300)" }}>
 // //                     <div className="flex flex-column md:flex-row">
 // //                         <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5">
@@ -106,17 +106,17 @@
 // import {jwtDecode} from 'jwt-decode'; // corrected import statement
 // import { useNavigate } from 'react-router-dom';
 // import Regist from "./Regist";
-
-
+ 
+ 
 // const Login2 = (props) => {
 //     const [visible, setVisible] = useState(false);
 //     const navigate = useNavigate();
 // const username=useRef("");
 // const email=useRef("");
 // const[register,setRegister]=useState(false)
-
+ 
 //     // var name = "", password = "";
-  
+ 
 //     // const handleSubmit = async (e) => {
 //     //     console.log(username.current.value);
 //     //    // e.preventDefault();
@@ -124,7 +124,7 @@
        
 //     //     console.log(data);
 //     //     };
-    
+   
 //     const login = async () => {
 //         try {
 //             const response = await Login(username, email);
@@ -151,7 +151,7 @@
 //             setVisible(false);
 //         }
 //     };
-
+ 
 //     return (
 //         <>
 //          <div>
@@ -220,9 +220,9 @@
 //                 </div>
 //                 <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
 //                     <Button label="הרשמה" icon="pi pi-user-plus" severity="success" className="w-10rem" onClick={()=>{setRegister(true)}}></Button>
-                    
+                   
 //                     {register && <Regist/>}
-                    
+                   
 //                 </div>
 //             </div>
 //             {/* {loginSuccess && <UsersNavBar/>} */}
@@ -231,10 +231,10 @@
 //         </>
 //     );
 // };
-
+ 
 // export default Login2;
-
-// import React, { useEffect, useRef, useState } from 'react'; 
+ 
+// import React, { useEffect, useRef, useState } from 'react';
 // import { Divider } from 'primereact/divider';
 // import { InputText } from 'primereact/inputtext';
 // import { Button } from 'primereact/button';
@@ -260,8 +260,9 @@ import { login } from "../axios/landlordAxios";
 import {jwtDecode} from 'jwt-decode'; // corrected import statement
 import { useNavigate } from 'react-router-dom';
 import Regist from "./Regist";
-
-
+import swal from "sweetalert";
+ 
+ 
 //import { useNavigate } from 'react-router-dom';
 //z6o1f2n5a8t8p2a5a5n3e1a7h
 const Login2=()=>{
@@ -271,7 +272,7 @@ const Login2=()=>{
     // const [loginFunc, {isError, error, isSuccess:loginSuccess,data}] = useLoginMutation();
     // const sendeE=async()=>{
  
-
+ 
     //     const dispatch = useDispatch()
     //     const navigate = useNavigate()
     //     let decodeToken;
@@ -288,27 +289,31 @@ const Login2=()=>{
     //     if(loginSuccess){    
     //     dispatch(setToken(data))
     //     decodeToken =DecodeToken()
-    //     console.log("lllllllllllllll"); 
+    //     console.log("lllllllllllllll");
     //     users=decodeToken?.roles;
     //     console.log(users);
     //     users==='admin'?navigate('/'):navigate('/user')
-
-
+ 
+ 
            
     // }
     // else{
-
+ 
     // }
     //     },[loginSuccess,userIsSuccess])
-    
+   
     const handleSubmit = async (e) => {
        // e.preventDefault();
     //    await loginFunc({username:username.current.value,password:password.current.value})
-     await login(username.current.value,email.current.value);
+    try{
+        await login(username.current.value,email.current.value);
      window.location.reload(true)
-
+    }catch(ex){
+        swal("אירעה שגיאה", "נסה שנית", "error");    }
+     
+ 
         };
-    
+   
     return(
         <>
         <br/> <br/> <br/> <br/> <br/>
@@ -336,9 +341,9 @@ const Login2=()=>{
                 </div>
                 <div className="w-full md:w-5 flex align-items-center justify-content-center py-5">
                     <Button label="הרשמה" icon="pi pi-user-plus" severity="success" className="w-10rem" onClick={()=>{setRegister(true)}}></Button>
-                    
+                   
                     {register && <Regist/>}
-                    
+                   
                 </div>
             </div>
             {/* {loginSuccess && <UsersNavBar/>} */}
@@ -347,11 +352,7 @@ const Login2=()=>{
     )
 }
 export default Login2
-
-
-
+ 
+ 
+ 
 /**/
-
-
-        
-         

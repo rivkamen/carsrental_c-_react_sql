@@ -17,10 +17,19 @@
     margin-bottom: 1rem;
 }
 
-.catalog {
+/* .catalog {
     padding: 1rem;
     overflow-y: auto;
-    height: 100vh; /* Adjust the height as needed */
+    height: 100vh;  Adjust the height as needed 
+} */
+.catalog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Adjust to your preference space-around*/
+    padding: 1rem;
+    /* overflow-y: auto; */
+    height: 100vh;/* Adjust the height as needed*/
+    width: 100%; /*Set width to 100% for responsiveness */
 }
 
 .p-grid .p-col-12 {
@@ -63,3 +72,26 @@
         width: 100%;
     }
 }
+
+/* .catalog {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 1rem;
+    height: 100vh;
+    width: 100%;
+}
+
+.cars-list {
+    flex: 1;
+}
+
+.thin-white-column {
+    width: 100px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    overflow-y: auto;
+    margin-left: auto; /* Push the column to the right */
+/* } */

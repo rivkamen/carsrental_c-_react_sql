@@ -54,8 +54,8 @@ const CarManager = (props) => {
     };
    
     const deleteCar1=async() =>{ 
-         await deleteCar(car.carId);}
-        //  window.location.reload(true)
+         await deleteCar(car.carId);
+         window.location.reload(true)}
     return (
         <>
 

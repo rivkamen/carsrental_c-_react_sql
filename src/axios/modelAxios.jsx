@@ -28,9 +28,9 @@ export async function getAllModels() {
 //      })
 //  }
  export async function getModelById(id) {
-    debugger
+    
     id=String(id)
-    return await axios.get('/model/getById',id)
+    return await axios.get('api/Model/'+id)
      .then((response) => {
          console.log(response)
          return response.data
